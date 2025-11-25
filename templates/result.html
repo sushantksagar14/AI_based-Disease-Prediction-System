@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ disease }} Result</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #00c6ff, #007bff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .box {
+      background: #fff;
+      padding: 30px;
+      border-radius: 15px;
+      width: 400px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      text-align: center;
+    }
+    .btn {
+      background: #007bff;
+      color: #fff;
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      margin-top: 20px;
+      display: inline-block;
+    }
+    .btn:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>{{ disease }} Prediction Result</h2>
+    <p><strong>Result:</strong> {{ result }}</p>
+    <p><strong>Model Accuracy:</strong> {{ accuracy|round(2) * 100 }}%</p>
+    <a href="/" class="btn">Back</a>
+  </div>
+</body>
+</html>

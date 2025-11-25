@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disease Prediction System - AI-Powered Health Assessment</title>
+    <meta name="description" content="Advanced AI-powered disease prediction tool for early detection of diabetes, heart disease, and Parkinson's. Get personalized health recommendations.">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #66d9ef 0%, #3b9fc9 50%, #2b8cb3 100%);
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .header-title-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .header-icon {
+            width: 48px;
+            height: 48px;
+            color: #fff;
+        }
+
+        .header-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #fff 0%, #e0f7ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header-subtitle {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Feature Cards */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-icon {
+            width: 32px;
+            height: 32px;
+            padding: 6px;
+            background: rgba(59, 159, 201, 0.1);
+            border-radius: 8px;
+            color: #3b9fc9;
+        }
+
+        .feature-title {
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        .feature-description {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Main Grid */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            animation: scaleIn 0.5s ease-out;
+        }
+
+        @media (min-width: 1024px) {
+            .main-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-description {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        /* Form */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: #3b9fc9;
+            box-shadow: 0 0 0 3px rgba(59, 159, 201, 0.1);
+        }
+
+        .hint-box {
+            background: rgba(59, 159, 201, 0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            border: 1px solid rgba(59, 159, 201, 0.2);
+            margin-top: 1rem;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .hint-text {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .example-box {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 0.5rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 0.5rem;
+        }
+
+        button {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #3b9fc9 0%, #2b8cb3 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        button:hover:not(:disabled) {
+            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 159, 201, 0.3);
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Results */
+        .result-box {
+            background: linear-gradient(135deg, rgba(59, 159, 201, 0.1) 0%, rgba(43, 140, 179, 0.1) 100%);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid rgba(59, 159, 201, 0.2);
+        }
+
+        .result-text {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            line-height: 1.6;
+        }
+
+        .advice-box {
+            background: white;
+            border: 1px solid rgba(43, 140, 179, 0.2);
+            padding: 1.5rem;
+            border-radius: 10px;
+            line-height: 1.6;
+            color: #333;
+            white-space: pre-line;
+        }
+
+        .disclaimer {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(252, 211, 77, 0.1);
+            border: 1px solid rgba(252, 211, 77, 0.3);
+            border-radius: 8px;
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Icons (SVG) */
+        .icon-svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            fill: none;
+        }
+
+        @media (max-width: 768px) {
+            .header-title {
+                font-size: 1.8rem;
+            }
+            .header-icon {
+                width: 36px;
+                height: 36px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-title-wrapper">
+                <svg class="header-icon icon-svg" viewBox="0 0 24 24">
+                    <path d="M11 4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h7z"/>
+                    <path d="M19 12h-7"/>
+                    <path d="M19 16h-7"/>
+                    <path d="M19 8h-7"/>
+                </svg>
+                <h1 class="header-title">Disease Prediction System</h1>
+            </div>
+            <p class="header-subtitle">
+                Advanced AI-powered health assessment tool for early disease detection and personalized recommendations
+            </p>
+        </div>
+
+        <!-- Features Grid -->
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-header">
+                    <svg class="feature-icon icon-svg" viewBox="0 0 24 24">
+                        <path d="M12 2v20M2 12h20"/>
+                    </svg>
+                    <h3 class="feature-title">AI-Powered</h3>
+                </div>
+                <p class="feature-description">Advanced machine learning algorithms</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-header">
+                    <svg class="feature-icon icon-svg" viewBox="0 0 24 24">
+                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                    </svg>
+                    <h3 class="feature-title">Accurate Results</h3>
+                </div>
+                <p class="feature-description">High precision prediction models</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-header">
+                    <svg class="feature-icon icon-svg" viewBox="0 0 24 24">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    </svg>
+                    <h3 class="feature-title">Secure & Private</h3>
+                </div>
+                <p class="feature-description">Your data stays confidential</p>
+            </div>
+        </div>
+
+        <!-- Main Grid -->
+        <div class="main-grid">
+            <!-- Prediction Form -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <svg class="icon-svg" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                            <line x1="12" y1="17" x2="12.01" y2="17"/>
+                        </svg>
+                        Health Assessment
+                    </h2>
+                    <p class="card-description">
+                        Select a condition and enter your health parameters for analysis
+                    </p>
+                </div>
+                <div class="card-content">
+                    <form id="predictionForm">
+                        <div class="form-group">
+                            <label class="form-label" for="disease">Select Disease Type</label>
+                            <select id="disease" name="disease" required onchange="updateHint()">
+                                <option value="">Choose a disease to analyze...</option>
+                                <option value="diabetes">🩺 Diabetes</option>
+                                <option value="heart">❤️ Heart Disease</option>
+                                <option value="parkinsons">🧠 Parkinson's Disease</option>
+                            </select>
+                        </div>
+
+                        <div id="hintContainer" class="hidden">
+                            <div class="hint-box">
+                                <p class="hint-text">
+                                    <svg class="icon-svg" style="width: 16px; height: 16px;" viewBox="0 0 24 24">
+                                        <circle cx="12" cy="12" r="10"/>
+                                        <line x1="12" y1="16" x2="12" y2="12"/>
+                                        <line x1="12" y1="8" x2="12.01" y2="8"/>
+                                    </svg>
+                                    <span id="hint"></span>
+                                </p>
+                                <div class="example-box" id="example"></div>
+                            </div>
+
+                            <div class="form-group" style="margin-top: 1rem;">
+                                <label class="form-label" for="features">Enter Values</label>
+                                <input type="text" id="features" name="features" placeholder="Enter comma-separated values" required>
+                            </div>
+                        </div>
+
+                        <button type="submit" id="submitBtn">
+                            Predict & Get AI Advice
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div>
+                <!-- Prediction Result -->
+                <div id="predictionCard" class="card hidden" style="margin-bottom: 1.5rem;">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <svg class="icon-svg" viewBox="0 0 24 24">
+                                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                            </svg>
+                            Prediction Result
+                        </h2>
+                    </div>
+                    <div class="card-content">
+                        <div class="result-box">
+                            <p class="result-text" id="prediction"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI Advice -->
+                <div id="adviceCard" class="card hidden">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <svg class="icon-svg" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                                <line x1="12" y1="17" x2="12.01" y2="17"/>
+                            </svg>
+                            AI Health Advisor
+                        </h2>
+                        <p class="card-description">Personalized recommendations based on your results</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="advice-box" id="aiAdvice"></div>
+                        <div class="disclaimer">
+                            ⚠️ <strong>Disclaimer:</strong> This is an AI-powered prediction tool for informational purposes only. 
+                            Always consult with qualified healthcare professionals for medical advice and diagnosis.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const diseaseInfo = {
+            diabetes: {
+                hint: "Enter: Pregnancies, Glucose, BMI, Age",
+                example: "Example: 2,120,32.5,45",
+                placeholder: "e.g., 2,120,32.5,45"
+            },
+            heart: {
+                hint: "Enter: Age, Sex(1=Male,0=Female), Cholesterol, Oldpeak",
+                example: "Example: 54,1,240,1.5",
+                placeholder: "e.g., 54,1,240,1.5"
+            },
+            parkinsons: {
+                hint: "Enter: MDVP:Fo(Hz), MDVP:Fhi(Hz), MDVP:Flo(Hz), HNR",
+                example: "Example: 119,150,110,20",
+                placeholder: "e.g., 119,150,110,20"
+            }
+        };
+
+        function updateHint() {
+            const disease = document.getElementById('disease').value;
+            const hintContainer = document.getElementById('hintContainer');
+            const hint = document.getElementById('hint');
+            const example = document.getElementById('example');
+            const featuresInput = document.getElementById('features');
+
+            if (disease && diseaseInfo[disease]) {
+                hintContainer.classList.remove('hidden');
+                hint.textContent = diseaseInfo[disease].hint;
+                example.textContent = diseaseInfo[disease].example;
+                featuresInput.placeholder = diseaseInfo[disease].placeholder;
+            } else {
+                hintContainer.classList.add('hidden');
+            }
+        }
+
+        document.getElementById('predictionForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const disease = document.getElementById('disease').value;
+    const features = document.getElementById('features').value;
+
+    const submitBtn = document.getElementById('submitBtn');
+    const predictionCard = document.getElementById('predictionCard');
+    const adviceCard = document.getElementById('adviceCard');
+    const predictionText = document.getElementById('prediction');
+    const adviceText = document.getElementById('aiAdvice');
+
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = 'Analyzing<span class="spinner"></span>';
+
+    predictionCard.classList.remove('hidden');
+    adviceCard.classList.remove('hidden');
+    predictionText.textContent = 'Analyzing your data...';
+    adviceText.textContent = 'Generating personalized recommendations...';
+
+    try {
+        // 👉 1) CALL REAL BACKEND PREDICTION
+        const res = await fetch('/predict', {
+            method: 'POST',
+            body: new URLSearchParams({
+                disease: disease,
+                features: features
+            })
+        });
+
+        const data = await res.json();
+
+        predictionText.textContent = data.prediction;
+
+        // 👉 2) CALL AI ADVICE WITH REAL RESULTS
+        const aiRes = await fetch('/get_advice', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                disease: disease,
+                result: data.result,
+                risk_level: data.risk_level,
+                probability: data.probability
+            })
+        });
+
+        const aiData = await aiRes.json();
+
+        adviceText.textContent = aiData.advice;
+
+    } catch (err) {
+        predictionText.textContent = "Error predicting disease.";
+        adviceText.textContent = "Error generating advice.";
+    }
+
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Predict & Get AI Advice';
+});
+
+    </script>
+</body>
+</html>
